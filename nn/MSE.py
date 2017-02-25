@@ -20,11 +20,15 @@ class MSE(Module):
     def __init__(self, prev_size, size = 1):
         super(MSE, self).__init__(prev_size, size)
         self.real = np.zeros(self.size)
+        self.grad_error = []
+        self.Loss = []
 
     def forward(self, *args, **kwargs):
         self.batch, self.real = args        
         self.batch_size = len(self.batch.T)
-        return self.layer_function(self.batch)
+        MSE_loss = self.layer_function(self.batch)
+    	self.Loss.append(MSE_loss)
+        return MSE_loss
 
     def layer_function(self, X):
         if X.shape != (self.prev_size,):
@@ -36,15 +40,13 @@ class MSE(Module):
         return 2.0 * res / self.prev_size 
 
     def analytical_grad(self, X):
-        '''
-        y = w * x + b
-        y'x = w.T
-        '''
-        #print (X - self.real)
         return (X - self.real) / self.prev_size
 
     def update_grad_input(self, *args, **kwargs):
-        self.grad_input = -self.batch_analytical_grad().T
+    	self.grad_error.append(self.gradient_error())
+        self.grad_input = -self.batch_analytical_grad().T  
+        #print (self.grad_input)
+
 
 
 if __name__ == "__main__":

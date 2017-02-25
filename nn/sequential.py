@@ -1,3 +1,11 @@
+#!/usr/bin/python2.7
+# -*- coding: utf-8 -*-
+#
+# Техносфера, BD-21
+# Нейронная сеть.
+# Автор: Ракитин Виталий
+#
+
 from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
@@ -6,6 +14,7 @@ from __future__ import print_function
 from module import Module
 from linear import Linear
 from MSE import MSE
+from sigmoid import Sigmoid
 import numpy as np
 
 class Sequential(Module):
@@ -38,6 +47,7 @@ class Sequential(Module):
 if __name__ == "__main__":
     model = Sequential()
     model.add(Linear(3,10))
+    #model.add(Sigmoid(10))
     model.add(MSE(10))
     X = np.array([[3.,4.,5.]]).T
     y = np.array([1,2,3,4,5,6,7,8,9,10]).T
@@ -46,6 +56,7 @@ if __name__ == "__main__":
         model.backward()
 
     print(model.forward(X, y))
+    #print(model.layers[-1].Loss)
 
 
 
