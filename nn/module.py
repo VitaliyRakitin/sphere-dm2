@@ -90,8 +90,8 @@ class Module(object):
     def batch_numerical_grad(self):
         batch_grad = []
         for x in self.batch.T:
-            batch_grad.append(self.numerical_grad(x) / self.batch_size)
-        return np.array(batch_grad).sum(axis = 0)
+            batch_grad.append(self.numerical_grad(x))# / self.batch_size)
+        return np.array(batch_grad)#.sum(axis = 0)
 
     def gradient_error(self):
         '''
@@ -100,6 +100,7 @@ class Module(object):
         '''
         numerical_grad = self.batch_numerical_grad()
         analytical_grad = self.batch_analytical_grad()
+        #print(numerical_grad, analytical_grad)
         error = np.square((numerical_grad - analytical_grad)).sum()
         return error
 

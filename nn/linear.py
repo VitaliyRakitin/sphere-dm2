@@ -39,7 +39,7 @@ class Linear(Module):
         return np.dot(self.weights, X) + bais
 
     def forward(self, *args, **kwargs):
-        self.batch, = args        
+        self.batch, _ = args        
         self.batch_size = len(self.batch.T)
         return self.layer_function(self.batch)
 
